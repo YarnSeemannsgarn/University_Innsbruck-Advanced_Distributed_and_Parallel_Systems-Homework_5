@@ -1,5 +1,7 @@
 package de.yarnseemannsgarn.ec2_cloud_renderer;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.Set;
 
@@ -23,9 +25,15 @@ public class App
 
 	public static int PARAMETERS = 3;
 	public static String INVALID_SYNTAX = "Invalid number of parameters. Syntax is: accesskeyid secretkey instances";
-
+	
+	public static Path CWD = Paths.get(System.getProperty("user.dir"));
+	public static Path POVRAY_DIR = CWD.resolve("povray");
+	
 	public static void main( String[] args )
 	{
+		System.out.println(POVRAY_DIR.toString());
+		System.exit(0);
+		
 		if (args.length < PARAMETERS)
 			throw new IllegalArgumentException(INVALID_SYNTAX);
 
@@ -45,7 +53,8 @@ public class App
 		prop.setProperty("jclouds.trust-all-certs", "true");
 
 		// Modules
-		Iterable<com.google.inject.Module> modules = ImmutableSet.<com.google.inject.Module>of(new SshjSshClientModule(),new SLF4JLoggingModule(), new EnterpriseConfigurationModule());
+		Iterable<com.google.inject.Module> modules = 
+				ImmutableSet.<com.google.inject.Module>of(new SshjSshClientModule(),new SLF4JLoggingModule(), new EnterpriseConfigurationModule());
 
 		// Launch instance
 		System.out.println( "Initialize Computing Service" );
@@ -84,6 +93,7 @@ public class App
 			SshClient ssh = context.utils().sshForNode().apply(node);
 			try {
 				ssh.connect();
+				//ssh.put(arg0, arg1);
 				System.out.println(ssh.exec("hostname").getOutput());
 			} finally {
 				if (ssh != null)
@@ -94,4 +104,19 @@ public class App
 
 		context.close();
 	}
+	
+	/*private void uploadFile(String pathToFile) throws IOException {
+		File uploadFile = new File(pathToFile);
+		ByteSource byteSource = Files.asByteSource(uploadFile);
+		
+		Payload payload = Payloads.newByteSourcePayload(byteSource);
+
+		cloudFiles.getObjectApi(REGION, CONTAINER)
+			.put(filename + suffix, payload);
+
+			System.out.format("  %s%s%n", filename, suffix);
+		} finally {
+			tempFile.delete();
+		}
+	}	*/
 }
