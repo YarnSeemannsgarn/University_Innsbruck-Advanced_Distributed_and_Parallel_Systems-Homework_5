@@ -4,7 +4,7 @@
 
   <groupId>de.yarnseemannsgarn</groupId>
   <artifactId>ec2-cloud-renderer</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>ec2-cloud-renderer</name>
@@ -33,14 +33,14 @@
     	<version>${jclouds.version}</version>
     </dependency>
     <dependency>
-    	<groupId>org.apache.jclouds.driver</groupId>
-    	<artifactId>jclouds-slf4j</artifactId>
-    	<version>${jclouds.version}</version>
+    	<groupId>org.apache.commons</groupId>
+    	<artifactId>commons-compress</artifactId>
+    	<version>1.9</version>
     </dependency>
     <dependency>
-    	<groupId>org.apache.jclouds.driver</groupId>
-    	<artifactId>jclouds-enterprise</artifactId>
-    	<version>${jclouds.version}</version>
+    	<groupId>commons-io</groupId>
+    	<artifactId>commons-io</artifactId>
+    	<version>2.4</version>
     </dependency>
   </dependencies>
 
@@ -68,6 +68,17 @@
         </descriptorRefs>
       </configuration>
     </plugin>
+  <plugin>
+    <artifactId>maven-clean-plugin</artifactId>
+    <version>2.6.1</version>
+    <configuration>
+      <filesets>
+        <fileset>
+          <directory>results</directory>
+        </fileset>
+      </filesets>
+    </configuration>
+  </plugin>    
   </plugins>
 </build>
 
