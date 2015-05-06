@@ -133,6 +133,7 @@ public class App
 		RESULT_DIR.toFile().mkdirs();
 		int i = 0;
 		Thread[] threadPool = new Thread[instances];
+		long startTime = System.currentTimeMillis();
 		for(NodeMetadata node : nodes) {
 			subsetEndFrame = subsetStartFrame + subsetPerProcessor - 1;
 			if((i+1) <= modulo)
@@ -149,12 +150,14 @@ public class App
 		}
 		
 		// Join threads
-		for(i = 0; i < threadPool.length; i++)
+		for(i = 0; i < threadPool.length; i++) {
 			try {
 				threadPool[i].join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+		System.out.println("Copy and rendering time: " + ((System.currentTimeMillis() - startTime)/1000) + "s");
 		context.close();
 		
 		// Merge pictures to gif
