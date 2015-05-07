@@ -139,7 +139,7 @@ The source file \texttt{src/\-main/\-java/\-de/\-yarnseemannsgarn/\-ec2\_cloud\_
 
 \section{Results}
 
-Measurement were made for 128 frames with 1, 2, 4, 8 and 16 instances. Table~\ref{tab:measurements} shows the measurement results, T$_R$ is the copy and render time.
+Measurement were made for 128 frames with 1, 2, 4, 8 and 16 instances. Table~\ref{tab:measurements} shows the measurement results.
 
 \begin{table}[htbp]
 \centering
@@ -147,15 +147,15 @@ Measurement were made for 128 frames with 1, 2, 4, 8 and 16 instances. Table~\re
 \hline
 \textbf{Instances} & \textbf{Copy + Render time} in s & \textbf{Speedup} & \textbf{Efficency} \\
 \hline \hline
-1 & 775.57 & 0 & 0 \\
+1 & 775.57 & - & - \\
 \hline
-2 & 439.82 & 0 & 0 \\
+2 & 439.82 & 1.76 & 0.88 \\
 \hline
-4 & 278.27 & 0 & 0 \\
+4 & 278.27 & 2.79 & 0.70 \\
 \hline
-8 & 178.44 & 0 & 0 \\
+8 & 178.44 & 4.35 & 0.54 \\
 \hline
-16 & 148.49 & 0 & 0 \\
+16 & 148.49 & 5.22 & 0.33 \\
 \hline
 %32 & 32 & 582,99 & 75,93 & 7,68 & 0,19 \\
 %\hline
@@ -168,6 +168,7 @@ Measurement were made for 128 frames with 1, 2, 4, 8 and 16 instances. Table~\re
 \label{tab:measurements}
 \end{table}
 
+While the speedup increases with the number of instances, the efficency decreases. This is because the speedup does not double with the doubling of the instances, due to network latency, instance availability and performance etc. The programme could be enhanced, so that multiple processors of the instances are used.
 
 %Because of this reaction, the required ratio is the atomic weight of magnesium: \SI{16.00}{\gram} of oxygen as experimental mass of Mg: experimental mass of oxygen or $\frac{x}{1.31}=\frac{16}{0.87}$ from which, $M_{\ce{Mg}} = 16.00 \times \frac{1.31}{0.87} = 24.1 = \SI{24}{\gram\per\mole}$ (to two significant figures).
 
