@@ -210,7 +210,8 @@ public class App
 				String commands = "chmod +x " + REMOTE_POVRAY + "\n";
 				commands += "mkdir -p " + REMOTE_OUTPUT_DIR + "\n";
 				commands += REMOTE_POVRAY + " +I" + REMOTE_SCHERK + " +O" + REMOTE_OUTPUT + " +FN +W1024 +H768"
-						+ " +KFI" + 1 + " +KFF" + frames + " +SF" + subsetStartFrame + " +EF" + subsetEndFrame;
+						+ " +KFI" + 1 + " +KFF" + frames + " +SF" + subsetStartFrame + " +EF" + subsetEndFrame 
+						+ " -A0.1 +R2 +KI0 +KF1 +KC -P";
 				ssh.exec(commands);
 				
 				// Create result archive
