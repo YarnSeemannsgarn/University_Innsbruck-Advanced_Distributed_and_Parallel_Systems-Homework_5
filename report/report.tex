@@ -1,0 +1,211 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.1 (25/3/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+%\usepackage[version=3]{mhchem} % Package for chemical equation typesetting
+%\usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
+\usepackage{graphicx} % Required for the inclusion of images
+%\usepackage{natbib} % Required to change bibliography style to APA
+%\usepackage{amsmath} % Required for some math elements 
+\usepackage{listings}
+\lstset{
+  breaklines=true,
+  basicstyle=\scriptsize,
+  columns=fullflexible
+}
+
+\usepackage{tikz}
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Report: Homework 5 - Advanced Programming}% Title
+
+\author{Jan \textsc{Schlenker}} % Author name
+
+\date{\today} % Date for the report
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+\begin{center}
+\begin{tabular}{l l}
+Instructor: & Dipl.-Ing. Dr. Simon Ostermann \\
+Parts solved of the sheet: & Cloud task \\
+Programming language: & Java \\
+Library used: & jclouds \\
+Total points: & 15 \\
+\end{tabular}
+\end{center}
+
+% If you wish to include an abstract, uncomment the lines below
+% \begin{abstract}
+% Abstract text
+% \end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Requirements}
+
+\begin{itemize}
+\item Java 1.7
+\item Maven %TODO Maven version 
+\end{itemize}
+
+\section{How to run the programme}
+
+First of all extract the archive file \texttt{homework\_5.tar.gz}:
+
+\begin{lstlisting}[language=bash, deletekeywords={cd}]
+  $ tar -xzf homework_5.tar.gz
+  $ cd homework_5
+\end{lstlisting}
+
+Afterwards move/copy the povray files \texttt{povray}, \texttt{gm} and \texttt{scherk.pov} to the \texttt{povray/} directory:
+
+\begin{lstlisting}[language=bash]
+  $ cp <gm-file-path> <povray-file-path> <scherk.pov-file-path> povray/
+\end{lstlisting}
+
+Now use maven to compile the sources and build a jar with dependencies:
+
+\begin{lstlisting}[language=bash]
+  $ mvn compile assembly:single
+\end{lstlisting}
+
+At last run the created jar, where \texttt{<instances>} is the number of instances which should be started and \texttt{<frames>} is the number of frames which should be rendered:
+
+\begin{lstlisting}[language=bash]
+  $ java -jar target/ec2-cloud-renderer-1.0.0-SNAPSHOT-jar-with-dependencies.jar <aws_access_key_id> <aws_secret_access_key> <instances> <frames>
+\end{lstlisting}
+
+%\begin{center}\ce{2 Mg + O2 -> 2 MgO}\end{center}
+
+% If you have more than one objective, uncomment the below:
+%\begin{description}
+%\item[First Objective] \hfill \\
+%Objective 1 text
+%\item[Second Objective] \hfill \\
+%Objective 2 text
+%\end{description}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Programme explanation}
+The files of the the programme are structured as follows:
+
+\begin{itemize}
+\item The \texttt{\textbf{src}} directory contains the source file
+\item The \texttt{\textbf{povray}} directory contains the binaries \texttt{povray} and \texttt{gm} and the povray file \texttt{scherks.pov} which will be copied to the amazon instances
+\item The \texttt{\textbf{pom.xml}} file contains information about the project and configuration details used by \texttt{Maven} to build the project
+\item The \texttt{\textbf{results}} directory will be generated during runtime and contains the animated gif-file
+\end{itemize}
+
+The source file \texttt{src/\-main/\-java/\-de/\-yarnseemannsgarn/\-ec2\_cloud\_renderer/\-App.java} basically uses the \texttt{jclouds Compute API} to create as many instances as given by the user. Fixed paramaters are the instance type (\texttt{t1.micro}) and the location (\texttt{us-west-1}). To enable ssh connections to the instances the \texttt{Sshj\-Ssh\-Client\-Module} is used. For parallel rendering the programme uses the standard \texttt{Thread} class of Java. The locale machine collects the rendered pictures and runs the \texttt{gm} script to produce the gif file.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Results}
+
+Measurement were made for 128 frames with 1, 2, 4, 8 and 16 instances. Table~\ref{tab:measurements} shows the measurement results, T$_R$ is the copy and render time.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ | c | c | c | c | }
+\hline
+\textbf{Instances} & \textbf{Copy + Render time} in s & \textbf{Speedup} & \textbf{Efficency} \\
+\hline \hline
+1 & 0 & 0 & 0 \\
+\hline
+2 & 0 & 0 & 0 \\
+\hline
+4 & 0 & 0 & 0 \\
+\hline
+8 & 0 & 0 & 0 \\
+\hline
+16 & 0 & 0 & 0 \\
+\hline
+%32 & 32 & 582,99 & 75,93 & 7,68 & 0,19 \\
+%\hline
+%64 & 40 & 1161,30 & 141,94 & 8,18 & 0,20 \\
+%\hline
+%128 & 40 & 2319,09 & 277,01 & 8,37 & 0,21 \\
+%\hline
+\end{tabular}
+\caption{Measurements}
+\label{tab:measurements}
+\end{table}
+
+
+%Because of this reaction, the required ratio is the atomic weight of magnesium: \SI{16.00}{\gram} of oxygen as experimental mass of Mg: experimental mass of oxygen or $\frac{x}{1.31}=\frac{16}{0.87}$ from which, $M_{\ce{Mg}} = 16.00 \times \frac{1.31}{0.87} = 24.1 = \SI{24}{\gram\per\mole}$ (to two significant figures).
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
+%----------------------------------------------------------------------------------------
+
+%\section{Results and Conclusions}
+
+%The atomic weight of magnesium is concluded to be \SI{24}{\gram\per\mol}, as determined by the stoichiometry of its chemical combination with oxygen. This result is in agreement with the accepted value.
+
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width=0.65\textwidth]{placeholder} % Include the image placeholder.png
+%\caption{Figure caption.}
+%\end{center}
+%\end{figure}
+%
+%----------------------------------------------------------------------------------------
+%	SECTION 5
+%----------------------------------------------------------------------------------------
+
+%\section{Discussion of Experimental Uncertainty}
+
+%The accepted value (periodic table) is \SI{24.3}{\gram\per\mole} \cite{Smith:2012qr}. The percentage discrepancy between the accepted value and the result obtained here is 1.3\%. Because only a single measurement was made, it is not possible to calculate an estimated standard deviation.
+
+%The most obvious source of experimental uncertainty is the limited precision of the balance. Other potential sources of experimental uncertainty are: the reaction might not be complete; if not enough time was allowed for total oxidation, less than complete oxidation of the magnesium might have, in part, reacted with nitrogen in the air (incorrect reaction); the magnesium oxide might have absorbed water from the air, and thus weigh ``too much." Because the result obtained is close to the accepted value it is possible that some of these experimental uncertainties have fortuitously cancelled one another.
+
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%\bibliographystyle{apalike}
+
+%\bibliography{sample}
+
+%----------------------------------------------------------------------------------------
+
+
+\end{document}
